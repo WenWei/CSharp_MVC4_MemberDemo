@@ -1,0 +1,57 @@
+﻿@model MemberDemo.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+@section scripts{
+    <script>
+        var myPage = {
+            SigninUrl: '@Url.Action("Login")',
+            SignupUrl:'@Url.Action("Signup")'
+        };
+    </script>
+    <script src="~/Scripts/ngWWExtensions.js"></script>
+    <script src="~/Scripts/ctrl/Account/LoginCtrl.js"></script>
+}
+@section head{
+<style>
+    .login-wrapper, .signup-wrapper, .forgot-wrapper
+    {
+        width:400px;
+        margin:0 auto;
+        padding: 20px 20px;
+    }
+    form legend
+    {
+        text-align:center;
+    }
+</style>    
+}
+<div class="login-page" ng-app="app" ng-controller="LoginCtrl" ng-init="panel=''">
+    @Html.AntiForgeryToken()
+    <div class="animate-switch-container" ng-switch on="panel">
+        <div class="animate-switch" ng-switch-default>
+            <div class="login-wrapper">
+                @Html.Partial("p_Signin")
+                <a href ng-click="doSwitch('signup')" class="pull-right">Signup</a>
+                @*<a href ng-click="doSwitch('forgot')" class="pull-left">Forgot password</a>*@
+            </div>
+        </div>
+        <div class="animate-switch" ng-switch-when="signup">
+            <div class="signup-wrapper">
+                @Html.Partial("p_Signup")
+                <a href ng-click="doSwitch('signin')" class="pull-left">Go back to Login!</a>
+            </div>
+        </div>
+        @*<div class="animate-switch" ng-switch-when="forgot">
+            <div class="forgot-wrapper">
+                <form>
+                    <fieldset>
+                        <legend>Forgot password</legend>
+                    </fieldset>
+                </form>
+                <a href ng-click="doSwitch('signin')">Go back to Login!</a>
+            </div>
+        </div>*@
+    </div>
+</div>

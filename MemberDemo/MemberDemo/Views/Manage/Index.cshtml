@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "帳號管理";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+@section scripts{
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
+<script>
+        var myPage = {
+            GetMembersUrl: '@Url.Action("GetMembers")',
+            DeleteMemberUrl: '@Url.Action("DeleteMember")'
+        };
+</script>
+<script src="~/Scripts/ngWWExtensions.js"></script>
+<script src="~/Scripts/ctrl/Manage/IndexCtrl.js"></script>
+}
+
+<div class="container" ng-app="app" ng-controller="ctrl" ng-init="currentPage=1; numPages=@ViewBag.TotalPages">
+    <h3>@ViewBag.Title</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>帳號</th>
+                <th>姓名</th>
+                <th>建立時間</th>
+                <th>功能</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="m in members">
+                <td ng-bind="m.UserName"></td>
+                <td ng-bind="m.FullName"></td>
+                <td ng-bind="m.CreatedOn"></td>
+                <td>
+                    @Html.AntiForgeryToken()
+                    <button class="btn btn-default" ng-click="delete(m)">刪除</button>
+                    @*<a class="btn btn-default" href="@Url.Action("Edit")" data-id="edit(m)">修改</a>*@
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <div ng-pagination num-pages="numPages" current-page="currentPage" on-select-page="getPage(page)"></div>
+    </div>
+</div>
