@@ -9,7 +9,7 @@ namespace MemberDemo.WebModels
     public class UserSession
     {
         /// <summary>
-        /// 使用者登入資訊
+        /// User login information
         /// </summary>
         public static UserData UserData
         {

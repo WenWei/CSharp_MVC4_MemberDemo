@@ -23,10 +23,10 @@ namespace MemberDemo.Controllers
         }
 
         /// <summary>
-        /// 取得會員資料
+        /// Get members
         /// </summary>
-        /// <param name="pi">頁碼，zero base</param>
-        /// <param name="ps">每頁資料數</param>
+        /// <param name="pi">Page number，zero base</param>
+        /// <param name="ps">Page size</param>
         /// <returns>會員資料陣列</returns>
         public JsonResult GetMembers(int pi, int ps=20)
         {
@@ -46,10 +46,10 @@ namespace MemberDemo.Controllers
         }
 
         /// <summary>
-        /// 刪除帳號
+        /// Delete member account.
         /// </summary>
-        /// <param name="id">帳號(UserName)</param>
-        /// <returns>err=0 代表刪除成功或帳號不存在; err=1 代表刪除失敗或發生錯誤</returns>
+        /// <param name="id">UserName</param>
+        /// <returns>err=0 delete success or account not exists; err=1 has unknow exception.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult DeleteMember(string id)

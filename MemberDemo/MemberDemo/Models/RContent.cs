@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 namespace MemberDemo.Models
 {
     /// <summary>
-    /// 回傳內容 T
+    /// Return content T
     /// </summary>
     public class RContent<T>
     {
@@ -17,7 +17,7 @@ namespace MemberDemo.Models
     }
 
     /// <summary>
-    /// 回傳內容
+    /// Return content
     /// </summary>
     public class RContent {
         public int err { get; set; }

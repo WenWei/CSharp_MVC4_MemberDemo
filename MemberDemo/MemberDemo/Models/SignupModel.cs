@@ -10,12 +10,12 @@ namespace MemberDemo.Models
     {
         [Required]
         [RegularExpression("^([a-zA-Z0-9]+)$", ErrorMessage = "Invalid UserName")]
-        [MinLength(3, ErrorMessage = "欄位字數不足，最小長度 3")]
-        [MaxLength(50, ErrorMessage="欄位超過字數限制，最大長度 50")]
+        [MinLength(3, ErrorMessage = "Your username is required to be at least 3 characters")]
+        [MaxLength(50, ErrorMessage = "Your username cannot be longer than 50 characters")]
         public string UserName { get; set; }
         [Required]
-        [MinLength(6, ErrorMessage="欄位字數不足，最小長度 6")]
-        [MaxLength(256, ErrorMessage = "欄位超過字數限制，最大長度 256")]
+        [MinLength(6, ErrorMessage = "Your password is required to be at least 6 characters")]
+        [MaxLength(256, ErrorMessage = "Your password cannot be longer than 256 characters")]
         public string Password { get; set; }
         [MaxLength(100)]
         public string FirstName { get; set; }

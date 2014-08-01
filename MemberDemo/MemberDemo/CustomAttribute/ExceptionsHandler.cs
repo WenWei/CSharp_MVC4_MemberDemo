@@ -1,6 +1,6 @@
-﻿// 作者:Sourav Kayal
-// 日期:December 19, 2013
-// ExceptionAttribute 參考文章: http://www.c-sharpcorner.com/UploadFile/dacca2/centralize-exception-handling-in-web-api/
+﻿// Author:Sourav Kayal
+// Date:December 19, 2013
+// Source: http://www.c-sharpcorner.com/UploadFile/dacca2/centralize-exception-handling-in-web-api/
 
 using System;
 using System.Collections.Generic;

@@ -12,6 +12,10 @@ namespace MemberDemo.Controllers
         //
         // GET: /Account/
 
+        /// <summary>
+        /// Login & Signup page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Login()
         {
             //登入狀態重導至 /Manage/Index
@@ -24,9 +28,9 @@ namespace MemberDemo.Controllers
         }
 
         /// <summary>
-        /// 登入
+        /// Login
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="m">LoginModel of account information</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -43,22 +47,21 @@ namespace MemberDemo.Controllers
                     account.LastLoginDate = DateTime.Now;
                     dbx.SaveChanges();
 
-                    string userData = "";//可放使用者自訂的內容
-                    //寫cookie
-                    //使用 Cookie 名稱、版本、到期日、核發日期、永續性和使用者特定的資料，初始化 FormsAuthenticationTicket 類別的新執行個體。 此 Cookie 路徑設定為在應用程式的組態檔中建立的預設值。
+                    string userData = "";           // Custom account information
+                    //Create cookie
                     //使用 Cookie 名稱、版本、目錄路徑、核發日期、到期日期、永續性和使用者定義的資料，初始化 FormsAuthenticationTicket 類別的新執行個體。
                     var ticket = new System.Web.Security.FormsAuthenticationTicket(1,
-                      account.UserName,//使用者ID
-                      DateTime.Now,//核發日期
-                      DateTime.Now.AddDays(5),//到期日期 60分鐘 
-                      m.IsRemember,//永續性
-                      userData,//使用者定義的資料
+                      account.UserName,             // user account
+                      DateTime.Now,                 // Issue date
+                      DateTime.Now.AddMinutes(60),  // Expire time 60 minutes 
+                      m.IsRemember,                 // Persistent
+                      userData,                     // Custom account information
                       System.Web.Security.FormsAuthentication.FormsCookiePath);
 
                     string encTicket = System.Web.Security.FormsAuthentication.Encrypt(ticket);
                     Response.Cookies.Add(new HttpCookie(System.Web.Security.FormsAuthentication.FormsCookieName, encTicket));
 
-                    //設定使用者登入資訊
+                    // Set user login information into session
                     WebModels.UserSession.UserData = new UserData { 
                         UserName=account.UserName,
                         FirstName=account.FirstName,
@@ -70,15 +73,15 @@ namespace MemberDemo.Controllers
                 }
                 else
                 {
-                    //登入失敗
-                    ModelState.AddModelError("", "登入失敗，帳號不存在或密碼錯誤");
+                    // Login fail
+                    ModelState.AddModelError("", "Login failed, the account does not exist or the password is wrong");
                     return View(m);
                 }
             }
         }
 
         /// <summary>
-        /// 註冊新帳號
+        /// Signup new user account
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -94,10 +97,10 @@ namespace MemberDemo.Controllers
                 {
                     var account = db.Members.Find(m.UserName);
                     
-                    //帳號已存在
+                    // Account exists
                     if (account != null)
                     {
-                        throw new ArgumentException("帳號已存在");
+                        throw new ArgumentException("Account exists.");
                         //return Json(new RContent
                         //{
                         //    err = 1,
@@ -108,7 +111,7 @@ namespace MemberDemo.Controllers
                     db.Members.Add(new Member
                     {
                         UserName = m.UserName,
-                        //不存明碼，暫用 GetHashCode
+                        //DB does not store the original password, temporary use GetHashCode
                         Password = m.Password.GetHashCode().ToString(),
                         FirstName = m.FirstName,
                         LastName = m.LastName,
@@ -139,17 +142,17 @@ namespace MemberDemo.Controllers
         }
 
         /// <summary>
-        /// 登出
+        /// Logout
         /// </summary>
         /// <returns></returns>
         public ActionResult Logout()
         {
             System.Web.Security.FormsAuthentication.SignOut();
 
-            //清除目前使用者的所有的 session
+            //Clear current session
             Session.RemoveAll();
 
-            //建立一個同名的 Cookie 來覆蓋原本的 Cookie
+            // Create new cookie rewrite cookie. Ensure cookie is empty.
             HttpCookie cookieEmpty = new HttpCookie(System.Web.Security.FormsAuthentication.FormsCookieName, "");
             cookieEmpty.Expires = DateTime.Now.AddYears(-1);
             Response.Cookies.Add(cookieEmpty);

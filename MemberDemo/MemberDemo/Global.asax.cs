@@ -42,8 +42,7 @@ namespace MemberDemo
 
         protected void Application_AcquireRequestState(object sender, EventArgs e)
         {
-            //如果Session消失，強制登出
-
+            //If Session disappeared, forced logout
             if (HttpContext.Current.Session != null)
             {
                 if (Session["UserData"] == null)
